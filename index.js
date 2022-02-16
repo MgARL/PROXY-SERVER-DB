@@ -14,6 +14,8 @@ const PROJECT_ID =  process.env.PROJECT_ID
 const DATABASE_NAME = process.env.DATABASE_NAME
 const SENDER_ID = process.env.SENDER_ID
 const APP_ID = process.env.APP_ID
+const JETPACK_URL = process.env.JETPACK_URL
+const DISHES_URL = process.env.DISHES_URL
 
 
 
@@ -22,7 +24,7 @@ const APP_ID = process.env.APP_ID
 //cors allowed urls
 app.use(
     cors({
-        origin: '*',
+        origin: [JETPACK_URL, DISHES_URL],
     })
 )
 //Body parser
