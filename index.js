@@ -8,7 +8,7 @@ require('dotenv').config()
 
 //Environment vars
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3001
 const DB_API_KEY = process.env.DB_API_KEY
 const PROJECT_ID =  process.env.PROJECT_ID
 const DATABASE_NAME = process.env.DATABASE_NAME
@@ -18,13 +18,17 @@ const APP_ID = process.env.APP_ID
 
 
 
-
+//Middle ware
 //cors allowed urls
 app.use(
     cors({
         origin: '*',
     })
 )
+//Body parser
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+
 //Initializing Firebase
 
 const firebaseConfig = {
@@ -43,7 +47,8 @@ const database = getDatabase(FireApp);
 
 
 // ROUTES
-app.get('/get-test-db',(req, res) =>{
+// TEST ROUTE
+app.get('/test-db',(req, res) =>{
     const dbRef = ref(database);
     get(child(dbRef, `/leaderBoard`)).then((snapshot) => {
         if (snapshot.exists()){
@@ -56,7 +61,20 @@ app.get('/get-test-db',(req, res) =>{
     })
 })
 
-app.get('/get-dishes-db',(req, res) =>{
+app.post('/test-db', (req, res) => {
+    const dbRef = ref(database, '/leaderBoard')
+    if(Object.entries(req.body).length !== 0){
+        set(dbRef, req.body)
+    
+        console.log(req.body)
+        res.send(`successfully saved`)
+    }else{
+        res.send('No data received')
+    }
+})
+
+// Dishes DB Route
+app.get('/dishes-db',(req, res) =>{
     const dbRef = ref(database);
     get(child(dbRef, `/dishesList`)).then((snapshot) => {
         if (snapshot.exists()){
@@ -69,7 +87,8 @@ app.get('/get-dishes-db',(req, res) =>{
     })
 })
 
-app.get('/get-jetpack-scores',(req, res) =>{
+// JETPACK EVADER ROUTE
+app.get('/jetpack-scores',(req, res) =>{
     const dbRef = ref(database);
     get(child(dbRef, `/jetpack_score`)).then((snapshot) => {
         if (snapshot.exists()){
@@ -82,8 +101,20 @@ app.get('/get-jetpack-scores',(req, res) =>{
     })
 })
 
+app.post('/jetpack-scores', (req, res) => {
+    const dbRef = ref(database, '/jetpack_score')
+    if(Object.entries(req.body).length !== 0){
+        set(dbRef, req.body)
+    
+        console.log(req.body)
+        res.send(`successfully saved`)
+    }else{
+        res.send('No data received')
+    }
+})
+
 app.get('*', (req,res) =>{
     res.status(404).send('PAGE NOT FOUND')
 })
 
-app.listen(PORT || 3001, () => console.log(`listening to port: ${PORT||3001}`))
+app.listen(PORT, () => console.log(`listening to port: ${PORT}`))
