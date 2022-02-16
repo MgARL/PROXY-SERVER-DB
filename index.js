@@ -90,7 +90,7 @@ app.get('/dishes-db',(req, res) =>{
 // JETPACK EVADER ROUTE
 app.get('/jetpack-scores',(req, res) =>{
     const dbRef = ref(database);
-    get(child(dbRef, `/jetpack_score`)).then((snapshot) => {
+    get(child(dbRef, `/jetpack_score/leaderBoard`)).then((snapshot) => {
         if (snapshot.exists()){
             res.send(`${JSON.stringify(snapshot)}`)
         }else{
@@ -102,7 +102,7 @@ app.get('/jetpack-scores',(req, res) =>{
 })
 
 app.post('/jetpack-scores', (req, res) => {
-    const dbRef = ref(database, '/jetpack_score')
+    const dbRef = ref(database, '/jetpack_score/leaderBoard')
     if(Object.entries(req.body).length !== 0){
         set(dbRef, req.body)
     
