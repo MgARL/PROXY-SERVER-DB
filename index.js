@@ -16,6 +16,7 @@ const SENDER_ID = process.env.SENDER_ID
 const APP_ID = process.env.APP_ID
 const JETPACK_URL = process.env.JETPACK_URL
 const DISHES_URL = process.env.DISHES_URL
+const DEV_URL =  process.env.DEV_URL
 
 
 
@@ -24,7 +25,7 @@ const DISHES_URL = process.env.DISHES_URL
 //cors allowed urls
 app.use(
     cors({
-        origin: [JETPACK_URL, DISHES_URL],
+        origin: [JETPACK_URL, DISHES_URL, DEV_URL],
     })
 )
 //Body parser
