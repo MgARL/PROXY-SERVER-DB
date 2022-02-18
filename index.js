@@ -3,7 +3,7 @@ const app = express()
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const { initializeApp } = require('firebase/app')
-const { getDatabase, ref, set, get, child } = require('firebase/database')
+const { getDatabase, ref, set, get, child, update, remove } = require('firebase/database')
 require('dotenv').config()
 
 //Environment vars
@@ -76,19 +76,8 @@ app.post('/test-db', (req, res) => {
     }
 })
 
-// Dishes DB Route
-app.get('/dishes-db',(req, res) =>{
-    const dbRef = ref(database);
-    get(child(dbRef, `/dishesList`)).then((snapshot) => {
-        if (snapshot.exists()){
-            res.send(`${JSON.stringify(snapshot)}`)
-        }else{
-            res.send('no data found')
-        }
-    }).catch(err => {
-        res.send(`${err}`)
-    })
-})
+// Dishes 
+app.use('/dishes-db', require('./controllers/dishes'))
 
 // JETPACK EVADER ROUTE
 app.get('/jetpack-scores',(req, res) =>{
