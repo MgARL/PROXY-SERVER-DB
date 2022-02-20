@@ -28,19 +28,32 @@ const firebaseConfig = {
 
 const FireApp = initializeApp(firebaseConfig);
 const database = getDatabase(FireApp);
+const auth = getAuth(FireApp)
 
 
 // Dishes DB Route
+
+// AUTH
 router.post('/auth', async (req,res)=>{
     try{
-        const userCredentials = await signInWithEmailAndPassword(getAuth(FireApp), req.body.email,req.body.password);
+        const userCredentials = await signInWithEmailAndPassword(auth, req.body.email,req.body.password);
         if (userCredentials !== null){
+            console.log(userCredentials.user)
             res.send(userCredentials)
         }
         
     }
     catch(err) {
         res.status(400).send(JSON.stringify(err))
+    }
+})
+
+router.get('/auth', async (req,res) => {
+    const response = await  signOut(auth)
+    try {
+        res.send("Succefully Logged out")
+    } catch (err) {
+        console.log(err)
     }
 })
 router.get('/get-db',(req, res) =>{
