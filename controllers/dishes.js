@@ -38,7 +38,6 @@ router.post('/auth', async (req,res)=>{
     try{
         const userCredentials = await signInWithEmailAndPassword(auth, req.body.email,req.body.password);
         if (userCredentials !== null){
-            console.log(userCredentials.user)
             res.send(userCredentials)
         }
         
@@ -51,11 +50,12 @@ router.post('/auth', async (req,res)=>{
 router.get('/auth', async (req,res) => {
     const response = await  signOut(auth)
     try {
-        res.send("Succefully Logged out")
+        res.send("Successfully Logged out")
     } catch (err) {
         console.log(err)
     }
 })
+// DB Routes
 router.get('/get-db',(req, res) =>{
     const dbRef = ref(database);
     get(child(dbRef, `/dishesList`)).then((snapshot) => {
@@ -69,9 +69,29 @@ router.get('/get-db',(req, res) =>{
         res.send(`${err}`)
     })
 })
-
-router.post('/delete-db', (req, res) =>{
-    console.log(req.body)
+// Adding new dish
+router.post('/add-new', async (req, res) => {
+    try {
+        const response = await update(ref(database, `dishesList/${req.body.newIndex}`),{
+            dishName: req.body.dishName,
+            ingredients: req.body.ingredients
+        });
+        res.send('received')
+    } catch (error) {
+        console.error(error)
+    }
 })
+
+// Deleting Dish
+router.post('/delete-db', async (req, res) =>{
+    try {
+        const response = await remove(child(ref(database), `dishesList/${req.body.index}/`))
+        res.send('Deleted')
+        
+    } catch (error) {
+        console.error(error)
+    }
+})
+
 
 module.exports = router
