@@ -2,7 +2,6 @@ const router = require('express').Router()
 
 // env vars
 
-const PORT = process.env.PORT || 3001
 const DB_API_KEY = process.env.DB_API_KEY
 const PROJECT_ID =  process.env.PROJECT_ID
 const DATABASE_NAME = process.env.DATABASE_NAME
@@ -13,7 +12,6 @@ const APP_ID = process.env.APP_ID
 const { initializeApp } = require('firebase/app')
 const { getDatabase, ref, set, get, child, update, remove } = require('firebase/database')
 const { getAuth, signInWithEmailAndPassword, signOut } = require('firebase/auth')
-const { async } = require('@firebase/util')
 
 const firebaseConfig = {
     apiKey: DB_API_KEY,
