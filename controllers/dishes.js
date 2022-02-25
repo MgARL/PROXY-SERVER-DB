@@ -36,7 +36,7 @@ router.post('/auth', async (req,res)=>{
     try{
         const userCredentials = await signInWithEmailAndPassword(auth, req.body.email,req.body.password);
         if (userCredentials !== null){
-            res.send(userCredentials)
+            res.send("userCredentials")
         }
         
     }
