@@ -58,7 +58,8 @@ router.get('/get-db',(req, res) =>{
     const dbRef = ref(database);
     get(child(dbRef, `/dishesList`)).then((snapshot) => {
         if (snapshot.exists()){
-            res.send(`${JSON.stringify(snapshot)}`)
+            // res.send(`${JSON.stringify(snapshot)}`)
+            res.status(200).json(snapshot)
         }else{
             res.send('no data found')
         }
