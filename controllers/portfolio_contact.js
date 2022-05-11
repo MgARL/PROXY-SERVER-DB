@@ -1,4 +1,4 @@
-// dependecies
+// dependencies
 const contact = require('express').Router()
 const nodemailer = require('nodemailer')
 require('dotenv').config()
@@ -25,9 +25,9 @@ contact.post('/send-form', async (req, res) => {
                 subject: subject,
                 text: `message: ${message} | from: ${name} | email: ${email}`
             })
+            console.log(response)
             res.status(200).json({
-                message: 'message sent',
-                response
+                message: 'message sent'
             })
         }else{
             res.status(400).json({
