@@ -5,13 +5,13 @@ const cors = require('cors')
 require('dotenv').config()
 
 //Environment vars
-const { PORT, DISHES_URL, PORTFOLIO_URL, DEV_URL  } = process.env
+const PORT = process.env
 
 //Middle ware
 //cors allowed urls
 app.use(
     cors({
-        origin: [DISHES_URL, PORTFOLIO_URL, DEV_URL],
+        origin: '*',
     })
 )
 //Body parser
