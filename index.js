@@ -11,7 +11,7 @@ const PORT = process.env
 //cors allowed urls
 app.use(
     cors({
-        origin: '*',
+        origin: '*'
     })
 )
 //Body parser
