@@ -5,7 +5,7 @@ const cors = require('cors')
 require('dotenv').config()
 
 //Environment vars
-const PORT = process.env
+const { PORT } = process.env
 
 //Middle ware
 //cors allowed urls
