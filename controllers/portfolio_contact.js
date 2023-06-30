@@ -1,6 +1,6 @@
 // dependencies
-const contact = require('express').Router()
-const nodemailer = require('nodemailer')
+const contact = require('express').Router();
+const nodemailer = require('nodemailer');
 require('dotenv').config()
 
 // ENV VARS
@@ -15,16 +15,25 @@ const transporter = nodemailer.createTransport({
     }
 })
 
+const createTemplate = (name, email, subject, message) => {
+    let template = `<h3>From:<strong> ${name}</strong></h3><br/>`;
+    template+= `<h3>At:<a href="mailto:${email}"> ${email}</a></h3><br/>`;
+    template += `<h3>Subject: ${subject}</h3><br/>`
+    template += `<p>${message}</p>`;
+    return template;
+};
+
 contact.post('/send-form', async (req, res) => {
-    const { name, email, subject, message } = req.body 
+    const { name, email, subject, message } = req.body
     try {
         if(name && email && subject && message){
-            const response = await transporter.sendMail({
+            const body = {
                 from: email,
                 to: RECEIVER,
                 subject: subject,
-                text: `message: ${message} | from: ${name} | email: ${email}`
-            })
+                html: createTemplate(name, email, subject, message)
+            };
+            const response = await transporter.sendMail(body);
             console.log(response)
             res.status(200).json({
                 message: 'message sent'
@@ -39,4 +48,4 @@ contact.post('/send-form', async (req, res) => {
     }
 })
 
-module.exports = contact
+module.exports = contact;
